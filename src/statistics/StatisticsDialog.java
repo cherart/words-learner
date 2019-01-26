@@ -1,10 +1,10 @@
-package menu.view;
+package statistics;
 
 import javax.swing.*;
 
-public class SettingsDialog extends JDialog {
+public class StatisticsDialog extends JDialog {
 
-    public SettingsDialog() {
+    public StatisticsDialog() {
         super();
         this.setSize(400, 400);
         this.setVisible(true);

@@ -1,4 +1,4 @@
-package model;
+package myvocabulary.model;
 
 public class Word {
 

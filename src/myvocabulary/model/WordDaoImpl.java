@@ -1,4 +1,4 @@
-package model;
+package myvocabulary.model;
 
 import java.sql.*;
 import java.util.ArrayList;

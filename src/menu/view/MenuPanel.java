@@ -1,31 +1,29 @@
 package menu.view;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MenuPanel extends JPanel {
 
     private JButton buttonStart;
-    private JButton buttonSettings;
+    private JButton buttonStatistics;
     private JButton buttonMyVocabulary;
 
     public MenuPanel() {
         this.setLayout(null);
+        onCreate();
+    }
 
+    public void onCreate() {
         buttonStart = new JButton("Start");
-        buttonSettings = new JButton("Settings");
+        buttonStatistics = new JButton("Statistics");
         buttonMyVocabulary = new JButton("My Vocabulary");
 
-        buttonStart.setBounds(125, 200, 250, 75);
-        buttonSettings.setBounds(125, 275, 250, 75);
-        buttonMyVocabulary.setBounds(125, 350, 250, 75);
-
-        buttonStart.setFont(new Font("Arial", Font.PLAIN, 20));
-        buttonSettings.setFont(new Font("Arial", Font.PLAIN, 20));
-        buttonMyVocabulary.setFont(new Font("Arial", Font.PLAIN, 20));
+        buttonStart.setBounds(20, 400, 150, 30);
+        buttonStatistics.setBounds(180, 400, 150, 30);
+        buttonMyVocabulary.setBounds(340, 400, 150, 30);
 
         this.add(buttonStart);
-        this.add(buttonSettings);
+        this.add(buttonStatistics);
         this.add(buttonMyVocabulary);
     }
 
@@ -33,23 +31,11 @@ public class MenuPanel extends JPanel {
         return buttonStart;
     }
 
-    public void setButtonStart(JButton buttonStart) {
-        this.buttonStart = buttonStart;
-    }
-
-    public JButton getButtonSettings() {
-        return buttonSettings;
-    }
-
-    public void setButtonSettings(JButton buttonSettings) {
-        this.buttonSettings = buttonSettings;
+    public JButton getButtonStatistics() {
+        return buttonStatistics;
     }
 
     public JButton getButtonMyVocabulary() {
         return buttonMyVocabulary;
-    }
-
-    public void setButtonMyVocabulary(JButton buttonMyVocabulary) {
-        this.buttonMyVocabulary = buttonMyVocabulary;
     }
 }

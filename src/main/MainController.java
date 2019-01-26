@@ -2,63 +2,97 @@ package main;
 
 import game.controller.GameController;
 import menu.controller.MenuController;
+import menu.controller.SettingsController;
+import myvocabulary.model.Word;
+import myvocabulary.model.WordDaoImpl;
 import myvocabulary.controller.MyVocabularyController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainController {
 
     private JPanel cardPanel;
+    private WordDaoImpl wordDao;
 
     private MenuController menuController;
+    private SettingsController settingsController;
     private GameController gameController;
     private MyVocabularyController myVocabularyController;
 
     public static void main(String[] args) {
         MainController mainController = new MainController();
-        mainController.init();
+        mainController.start();
     }
 
-    private void init() {
-        JFrame window = new JFrame("Words Learner");
-        window.setSize(500, 500);
-        window.setResizable(false);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private void start() {
+        try {
+            initDatabase();
+            initFrame();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void initDatabase() throws SQLException, ClassNotFoundException {
+        wordDao = new WordDaoImpl();
+    }
+
+    private void initFrame() throws SQLException {
+        JFrame frame = new JFrame("Words Learner");
+        frame.setSize(500, 500);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cardPanel = new JPanel(new CardLayout());
-        window.add(cardPanel);
+        frame.add(cardPanel);
 
-        menuController = new MenuController(this);
+        settingsController = new SettingsController(this);
         gameController = new GameController(this);
+        menuController = new MenuController(this);
         myVocabularyController = new MyVocabularyController(this);
 
-        window.setVisible(true);
-    }
-
-    public void addPanel(JPanel panel, String name) {
-        cardPanel.add(panel, name);
+        frame.setVisible(true);
     }
 
     public JPanel getCardPanel() {
         return cardPanel;
     }
-}
 
-//        File file = new File("Words.html");
-//        try {
-//            HashMap<String, String> words = new HashMap<>();
-//            Document doc = Jsoup.parse(file, "UTF-8");
-//            Elements elements = doc.select("tr").select("td");
-//            for (int i = 2; i < elements.size(); i++) {
-//                String word = elements.get(i).text();
-//                words.put(word, elements.get(++i).text());
-//                i += 2;
-//            }
-//            for (String key : words.keySet()) {
-//                System.out.println(key);
-//                System.out.println(words.get(key));
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public WordDaoImpl getWordDao() {
+        return wordDao;
+    }
+
+    public MenuController getMenuController() {
+        return menuController;
+    }
+
+    public SettingsController getSettingsController() {
+        return settingsController;
+    }
+
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    public MyVocabularyController getMyVocabularyController() {
+        return myVocabularyController;
+    }
+
+    public java.util.List<String[]> getStringArrayWords() throws SQLException {
+        List<String[]> words = new ArrayList<>();
+        for (Word word : wordDao.getAllWords()) {
+            words.add(new String[]{
+                    Integer.toString(word.getId()),
+                    word.getEnglishTranslate(),
+                    word.getRussianTranslate()});
+        }
+        return words;
+    }
+
+    public void addPanel(Component panel, String name) {
+        cardPanel.add(panel, name);
+    }
+}

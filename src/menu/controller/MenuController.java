@@ -2,42 +2,38 @@ package menu.controller;
 
 import main.MainController;
 import menu.view.MenuPanel;
-import menu.view.SettingsDialog;
 
 import java.awt.*;
+import java.sql.SQLException;
 
 public class MenuController {
 
-    private MenuPanel menuPanel;
-    private SettingsDialog settingsDialog;
+    private MainController mainController;
 
     public MenuController(MainController mainController) {
-        menuPanel = new MenuPanel();
+        this.mainController = mainController;
+        start();
+    }
+
+    private void start() {
+        MenuPanel menuPanel = new MenuPanel();
+        menuPanel.add(mainController.getSettingsController().getSettingsPanel());
         mainController.addPanel(menuPanel, "MenuPanel");
 
         CardLayout cardLayout = (CardLayout) mainController.getCardPanel().getLayout();
 
         menuPanel.getButtonStart().addActionListener(e -> {
+            try {
+                mainController.getGameController().start(mainController.getSettingsController().getSettings());
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             cardLayout.show(mainController.getCardPanel(), "GamePanel");
         });
-        menuPanel.getButtonSettings().addActionListener(e -> {
-            settingsDialog = new SettingsDialog();
-            settingsDialog.setVisible(true);
+        menuPanel.getButtonStatistics().addActionListener(e -> {
         });
         menuPanel.getButtonMyVocabulary().addActionListener(e -> {
             cardLayout.show(mainController.getCardPanel(), "MyVocabularyPanel");
         });
     }
-
-//    JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-//    FileFilter filter = new FileNameExtensionFilter("HTML File", "html");
-//        fileChooser.setFileFilter(filter);
-//    int returnValue = fileChooser.showOpenDialog(null);
-//        if (returnValue == JFileChooser.APPROVE_OPTION) {
-//        htmlFile = fileChooser.getSelectedFile();
-//        cardLayout.show(cardPanel, "MenuCard");
-//    } else {
-//        JLabel text = (JLabel) getContentPane().findComponentAt(150, 50);
-//        text.setText("You didn't choose file");
-//    }
 }
