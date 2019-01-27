@@ -15,8 +15,8 @@ public class SettingsController {
     private MainController mainController;
     private SettingsPanel settingsPanel;
 
-    private String startIndex;
-    private String lastIndex;
+    private String startIndex = "";
+    private String lastIndex = "";
     private String language = "English";
     private String mode = "Test";
 

@@ -95,4 +95,8 @@ public class MainController {
     public void addPanel(Component panel, String name) {
         cardPanel.add(panel, name);
     }
+
+    public void removePanel(Component panel) {
+        cardPanel.remove(panel);
+    }
 }
